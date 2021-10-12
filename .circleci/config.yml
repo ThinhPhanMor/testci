@@ -40,6 +40,7 @@ jobs:
 
       - run: composer install -n --prefer-dist
       - run: composer global require "squizlabs/php_codesniffer=*"
+      - run: composer require --dev phpstan/phpstan
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
@@ -62,6 +63,7 @@ jobs:
       # run tests with phpunit or codecept
       - run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - run: php artisan key:generate
+      - run: ./vendor/bin/phpstan analyse --memory-limit=1G
       - run: ./vendor/bin/phpunit
-      - run: ./vendor/bin/phpcs --ignore=vendor,bootstrap/cache/,storage --standard=PSR2 ./
+      - run: ./vendor/bin/phpcs --ignore=vendor,bootstrap/cache/,storage --standard=PSR2 /app tests/
       - run: composer check
