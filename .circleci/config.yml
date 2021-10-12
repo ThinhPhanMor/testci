@@ -5,9 +5,24 @@ version: 2
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  code-analyze:
+  build:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
+      # Specify the version you desire here
       - image: circleci/php:7.4-node-browsers
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # Using the RAM variation mitigates I/O contention
+      # for database intensive operations.
+      # - image: circleci/mysql:5.7-ram
+      #
+      # - image: redis:2.8.19
+
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
 
@@ -50,12 +65,3 @@ jobs:
       - run: php artisan key:generate
       - run: ./vendor/bin/phpstan analyse --memory-limit=1G app/ tests/
       - run: composer check
-
-workflows:
-  code-analyze:
-    jobs:
-      - code-analyze:
-          filters:
-            branches:
-              ignore:
-                - /.*-database/
