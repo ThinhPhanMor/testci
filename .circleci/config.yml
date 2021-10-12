@@ -50,3 +50,12 @@ jobs:
       - run: php artisan key:generate
       - run: ./vendor/bin/phpstan analyse --memory-limit=1G app/ tests/
       - run: composer check
+
+workflows:
+  code-analyze:
+    jobs:
+      - code-analyze:
+          filters:
+            branches:
+              ignore:
+                - /.*-database/
