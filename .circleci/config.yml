@@ -29,8 +29,6 @@ jobs:
       - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       - run: sudo apt-get install libpng-dev
       - run: sudo docker-php-ext-install gd
-      - run: sudo apt-get install -y phpunit
-      - run: sudo apt-get install -y phpcs
 
       # Download and cache dependencies
       - restore_cache:
@@ -62,7 +60,6 @@ jobs:
       #- run: php artisan migrate --env=testing --database=sqlite_testing --force
 
       # run tests with phpunit or codecept
-      #- run: ./vendor/bin/phpunit
-      - run: ./vendor/bin/codecept build
-      - run: ./vendor/bin/codecept run
+      - run: ./vendor/bin/phpunit
+      - run: sudo ~/.composer/vendor/bin/phpcs --ignore=vendor,bootstrap/cache/,storage --standard=PSR2 ./
       - run: composer check
