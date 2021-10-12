@@ -19,9 +19,7 @@ class TestController extends Controller
     public function demo()
     {
         $a = 1;
-        if ($a == 0) {
-            $b = 2;
-            $c = 3;
+        if ($a == 0) {$b = 2;$c = 3;
         }
     }
 }
