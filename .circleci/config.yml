@@ -27,7 +27,7 @@ jobs:
       - checkout
 
       - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-      - run: sudo docker-php-ext-install 
+      - run: sudo docker-php-ext-install gd
 
       # Download and cache dependencies
       - restore_cache:
@@ -38,7 +38,7 @@ jobs:
             - v1-dependencies-
 
       - run: composer install -n --prefer-dist
-      - run: composer global require "squizlabs/php_codesniffer=*" 
+      - run: composer global require "squizlabs/php_codesniffer=*"
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
