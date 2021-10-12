@@ -40,6 +40,7 @@ jobs:
 
       - run: composer install -n --prefer-dist
       - run: composer global require "squizlabs/php_codesniffer=*"
+      - run: git clone https://github.com/wataridori/framgia-php-codesniffer.git ~/.composer/vendor/squizlabs/php_codesniffer/src/Standards/Framgia
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
@@ -63,5 +64,5 @@ jobs:
       - run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - run: php artisan key:generate
       - run: ./vendor/bin/phpunit
-      - run: sudo ~/.composer/vendor/bin/phpcs --ignore=vendor,bootstrap/cache/,storage --standard=PSR2 ./
+      - run: sudo ~/.composer/vendor/bin/phpcs --ignore=vendor,bootstrap/cache/,storage --standard=Framgia ./
       - run: composer check
