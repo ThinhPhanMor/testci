@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\BaseInterface;
+use App\Repositories\BaseRepository;
 use Illuminate\Support\ServiceProvider;
 
 class BaseRepositoryServiceProvider extends ServiceProvider
@@ -23,6 +25,6 @@ class BaseRepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind('App\Repositories\BaseInterface', 'App\Repositories\BaseRepository');
+        $this->app->bind(BaseInterface::class, BaseRepository::class);
     }
 }
