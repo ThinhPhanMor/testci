@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\ValidationAddProductRequest;
+use App\Http\Requests\ValidationUpdateProductRequest;
 use App\Repositories\Product\ProductRepository;
-use Illuminate\Http\Request;
 
 class ProductController extends BaseController
 {
@@ -24,7 +25,7 @@ class ProductController extends BaseController
         return $this->responseSuccess(null, $products);
     }
 
-    public function add(Request $request)
+    public function add(ValidationAddProductRequest $request)
     {
         $data = $request->all();
         $productParam = [
@@ -36,7 +37,7 @@ class ProductController extends BaseController
         return $this->responseSuccess(null, $product);
     }
 
-    public function edit(Request $request, $id)
+    public function edit(ValidationUpdateProductRequest $request, $id)
     {
         $data = $request->all();
         $productParam = [];
@@ -50,6 +51,10 @@ class ProductController extends BaseController
         }
 
         $product = $this->productRepository->update($productParam, $id);
+
+        if (!$product) {
+            return $this->responseError();
+        }
 
         return $this->responseSuccess(null, $product);
     }

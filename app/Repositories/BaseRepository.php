@@ -18,7 +18,12 @@ class BaseRepository implements BaseInterface
 
     public function findById($id)
     {
-        return $this->model->findOrFail($id);
+        $infoModel = $this->model->find($id);
+        if (!$infoModel) {
+            return false;
+        }
+
+        return $this->model->find($id);
     }
 
     public function add($data)
@@ -29,6 +34,15 @@ class BaseRepository implements BaseInterface
     public function update($data, $id)
     {
         $infoModel = $this->findById($id);
+        if (!$infoModel) {
+            return false;
+        }
+
+        $updateFlag = $infoModel->update($data);
+        if (!$updateFlag) {
+            return false;
+        }
+
         return tap($infoModel)->update($data);
     }
 
